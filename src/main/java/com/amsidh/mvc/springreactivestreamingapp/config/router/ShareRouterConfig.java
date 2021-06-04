@@ -16,8 +16,9 @@ public class ShareRouterConfig {
 
     @Bean
     public RouterFunction<ServerResponse> getShareRouterConfig(ShareHandler shareHandler) {
-        return RouterFunctions.route().GET("/share", accept(APPLICATION_JSON), shareHandler::getShares)
-                .GET("/share", accept(APPLICATION_NDJSON), shareHandler::getShareStream)
+        return RouterFunctions.route()
+                .GET("/share", accept(APPLICATION_JSON), shareHandler::getShares)
+                .GET("/share", accept(APPLICATION_NDJSON), serverRequest -> shareHandler.getShareStream())
                 .build();
     }
 }

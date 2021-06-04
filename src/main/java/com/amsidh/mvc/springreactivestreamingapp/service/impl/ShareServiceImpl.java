@@ -13,7 +13,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.function.BiFunction;
 
 @Service
 public class ShareServiceImpl implements ShareService {
@@ -41,19 +40,18 @@ public class ShareServiceImpl implements ShareService {
     @Override
     public Flux<Share> getShareStream(Duration duration) {
         return Flux.generate(() -> 0,
-                (BiFunction<Integer, SynchronousSink<Share>, Integer>) (index, sink) -> {
+                (Integer index, SynchronousSink<Share> sink) -> {
                     Share updateShare = updateShare(this.shares.get(index));
                     sink.next(updateShare);
-                    return ++index % this.shares.size();
+                    ++index;
+                    return index % this.shares.size();
                 })
                 .zipWith(Flux.interval(duration))
                 .map(t -> t.getT1())
                 .map(share -> {
                     share.setInstant(Instant.now());
                     return share;
-                }).log("com.amsidh.mvc.springreactivestreamingapp.service.impl.ShareServiceImpl");
-
-
+                }).log("???????????????????????????????????????????????????????????");
     }
 
     private Share updateShare(Share share) {

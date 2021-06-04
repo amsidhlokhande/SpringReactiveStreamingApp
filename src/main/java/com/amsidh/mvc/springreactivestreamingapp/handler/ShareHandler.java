@@ -23,14 +23,14 @@ public class ShareHandler {
         int size = Integer.parseInt(serverRequest.queryParam("size").orElse("10"));
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(shareService.getShareStream(Duration.ofMillis(100l))
+                .body(shareService.getShareStream(Duration.ofMillis(100L))
                         .take(size), Share.class);
     }
 
-    public Mono<ServerResponse> getShareStream(ServerRequest serverRequest) {
+    public Mono<ServerResponse> getShareStream() {
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_NDJSON)
-                .body(shareService.getShareStream(Duration.ofMillis(100l)), Share.class);
+                .body(shareService.getShareStream(Duration.ofMillis(100L)), Share.class);
     }
 
 }
